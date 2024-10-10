@@ -9,7 +9,7 @@
 #include "bbr_attack_queue.hh"
 #include "timestamp.hh"
 
-// #define DEBUG_MODE
+#define DEBUG_MODE
 
 using namespace std;
 
@@ -20,6 +20,8 @@ BBRAttackQueue::BBRAttackQueue(
     : attack_rate(attack_rate_), // Bytes per millisecond
       k(k_),
       delay_budget(delay_budget_),
+      initial_rate(125), // 4Mpbs
+      input_rate(attack_rate_),
       acc_delay(0),
       arrival_rate(0),
       current_arrival_rate(attack_rate_),
@@ -53,6 +55,17 @@ void BBRAttackQueue::detectState(Packet &p)
 
 void BBRAttackQueue::computeDelay(Packet &p)
 {
+    static uint64_t counter = timestamp();
+
+    if (timestamp() - counter <= 30000)
+    {
+        attack_rate = initial_rate;
+    }
+    else
+    {
+        attack_rate = input_rate;
+    }
+
     double total_delay = acc_delay + (double)p.contents.size() / attack_rate;
     const uint64_t d = (uint64_t)total_delay;
     acc_delay = total_delay - d;

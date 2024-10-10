@@ -26,9 +26,11 @@ enum BBRPhase
 class BBRAttackQueue
 {
 private:
-    const double attack_rate;
+    double attack_rate;
     const uint64_t k;
     const uint64_t delay_budget;
+    const double initial_rate;
+    const double input_rate;
 
     double acc_delay;
 
