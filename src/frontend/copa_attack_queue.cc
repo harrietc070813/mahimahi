@@ -71,7 +71,7 @@ void CopaAttackQueue::read_packet(const string &contents)
     uint64_t dequeue_time = now;
     uint64_t delay = 0;
 
-    uint64_t phase = (now / 100) % 2; // phase == 0: drain, phase == 1, add delay
+    uint64_t phase = (now / 200) % 2; // phase == 0: drain, phase == 1, add delay
 
     if (phase == 1 && delay_budget_ > 0 && packet_queue_.empty())
     {
