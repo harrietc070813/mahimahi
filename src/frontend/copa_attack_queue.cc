@@ -10,7 +10,8 @@ using namespace std;
 CopaAttackQueue::CopaAttackQueue(const uint64_t &delay_budget, const string &link_log, const std::string &attack_log) : delay_budget_(delay_budget),
                                                                                                                         packet_queue_(),
                                                                                                                         log_(),
-                                                                                                                        attack_log_()
+                                                                                                                        attack_log_(),
+                                                                                                                        last_phase(1)
 {
     // srand(time(NULL));
     /* open logfile if called for */
@@ -71,13 +72,15 @@ void CopaAttackQueue::read_packet(const string &contents)
     uint64_t dequeue_time = now;
     uint64_t delay = 0;
 
-    uint64_t phase = (now / 200) % 2; // phase == 0: drain, phase == 1, add delay
+    uint64_t phase = (now / 40) % 2; // phase == 0: drain, phase == 1, add delay
 
-    if (phase == 1 && delay_budget_ > 0 && packet_queue_.empty())
+    // Only add delay once in a delay-adding phase
+    if (last_phase == 0 && phase == 1 && delay_budget_ > 0)
     {
         // delay = rand() % delay_budget_;
         delay = delay_budget_;
     }
+    last_phase = phase;
     // Log computed delay
     if (attack_log_)
     {
