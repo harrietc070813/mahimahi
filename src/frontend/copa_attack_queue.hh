@@ -25,7 +25,7 @@ private:
     std::queue<Packet> packet_queue_;
     std::unique_ptr<std::ofstream> log_;
     std::unique_ptr<std::ofstream> attack_log_;
-    uint64_t last_phase;
+    uint64_t last_send_time;
     /* release timestamp, contents */
 
 public:
