@@ -11,7 +11,7 @@ CopaAttackQueue::CopaAttackQueue(const uint64_t &delay_budget, const string &lin
                                                                                                                         packet_queue_(),
                                                                                                                         log_(),
                                                                                                                         attack_log_(),
-                                                                                                                        last_phase(1)
+                                                                                                                        last_phase(0)
 {
     // srand(time(NULL));
     /* open logfile if called for */
@@ -72,10 +72,10 @@ void CopaAttackQueue::read_packet(const string &contents)
     uint64_t dequeue_time = now;
     uint64_t delay = 0;
 
-    uint64_t phase = (now / 40) % 2; // phase == 0: drain, phase == 1, add delay
+    uint64_t phase = (now / 40) % 2; // phase == 1: drain, phase == 0, add delay
 
     // Only add delay once in a delay-adding phase
-    if (last_phase == 0 && phase == 1 && delay_budget_ > 0)
+    if (last_phase == 1 && phase == 0 && delay_budget_ > 0)
     {
         // delay = rand() % delay_budget_;
         delay = delay_budget_;

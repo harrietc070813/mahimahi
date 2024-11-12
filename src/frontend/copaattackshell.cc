@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
                                      delay_budget,
                                      uplink_filename,
                                      uplink_attack_filename);
-        delay_shell_app.start_downlink(delay_budget, downlink_filename, downlink_attack_filename);
+        delay_shell_app.start_downlink(0, downlink_filename, downlink_attack_filename);
         return delay_shell_app.wait_for_exit();
     }
     catch (const exception &e)
