@@ -25,11 +25,14 @@ private:
     std::queue<Packet> packet_queue_;
     std::unique_ptr<std::ofstream> log_;
     std::unique_ptr<std::ofstream> attack_log_;
+    double acc_delay;
     uint64_t last_send_time;
     /* release timestamp, contents */
 
 public:
     CopaAttackQueue(const uint64_t &delay_budget, const std::string &link_log, const std::string &attack_log);
+
+    uint64_t computeDelay(const std::string &contents, uint64_t arrival_time);
 
     void read_packet(const std::string &contents);
 

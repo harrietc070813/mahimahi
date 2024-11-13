@@ -11,6 +11,7 @@ CopaAttackQueue::CopaAttackQueue(const uint64_t &delay_budget, const string &lin
                                                                                                                         packet_queue_(),
                                                                                                                         log_(),
                                                                                                                         attack_log_(),
+                                                                                                                        acc_delay(0),
                                                                                                                         last_send_time(0)
 {
     // srand(time(NULL));
@@ -64,6 +65,23 @@ void CopaAttackQueue::record_departure(const uint64_t departure_time, const uint
     }
 }
 
+uint64_t CopaAttackQueue::computeDelay(const string &contents, uint64_t arrival_time)
+{
+    const double attack_rate = 125; // 1pkt/ms
+
+    double total_delay = acc_delay + (double)contents.size() / attack_rate;
+    const uint64_t d = (uint64_t)total_delay;
+    acc_delay = total_delay - d;
+
+    uint64_t last = arrival_time;
+    if (!packet_queue_.empty())
+    {
+        Packet prev = packet_queue_.back();
+        last = max(prev.dequeue_time, last);
+    }
+    return last + d;
+}
+
 void CopaAttackQueue::read_packet(const string &contents)
 {
     uint64_t now = timestamp();
@@ -73,9 +91,12 @@ void CopaAttackQueue::read_packet(const string &contents)
     uint64_t delay = 0;
 
     uint64_t interval = 80;
-
-    // Only add delay once in a delay-adding phase
-    if (now > 200 && now - last_send_time > interval)
+    if (now > 400 && now < 1000)
+    {
+        delay = computeDelay(contents, now);
+        last_send_time = now;
+    }
+    else if (now - last_send_time > interval) // Only add delay once in a delay-adding phase
     {
         // delay = rand() % delay_budget_;
         delay = delay_budget_;
