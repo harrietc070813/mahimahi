@@ -73,13 +73,21 @@ void CopaAttackQueue::read_packet(const string &contents)
     uint64_t delay = 0;
 
     uint64_t interval = 80;
+    uint64_t duration = 10;
 
     // Only add delay once in a delay-adding phase
-    if (now > 200 && now - last_send_time > interval)
+    if (now > 200)
     {
-        // delay = rand() % delay_budget_;
-        delay = delay_budget_;
-        last_send_time = now;
+        if (now - last_send_time > interval)
+        {
+            // delay = rand() % delay_budget_;
+            delay = delay_budget_;
+            last_send_time = now;
+        }
+        else if (now - last_send_time < duration)
+        {
+            delay = delay_budget_;
+        }
     }
     // Log computed delay
     if (attack_log_)
