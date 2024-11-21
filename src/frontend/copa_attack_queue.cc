@@ -7,12 +7,16 @@
 
 using namespace std;
 
-CopaAttackQueue::CopaAttackQueue(const uint64_t &delay_budget, const string &link_log, const std::string &attack_log) : delay_budget_(delay_budget),
-                                                                                                                        packet_queue_(),
-                                                                                                                        log_(),
-                                                                                                                        attack_log_(),
-                                                                                                                        acc_delay(0),
-                                                                                                                        last_send_time(0)
+CopaAttackQueue::CopaAttackQueue(const uint64_t &delay_budget, const uint64_t &duration,
+                                 const uint64_t &interval, const string &link_log,
+                                 const std::string &attack_log) : delay_budget_(delay_budget),
+                                                                  duration_(duration),
+                                                                  interval_(interval),
+                                                                  packet_queue_(),
+                                                                  log_(),
+                                                                  attack_log_(),
+                                                                  acc_delay(0),
+                                                                  last_send_time(0)
 {
     // srand(time(NULL));
     /* open logfile if called for */
@@ -90,10 +94,10 @@ void CopaAttackQueue::read_packet(const string &contents)
     uint64_t dequeue_time = now;
     uint64_t delay = 0;
 
-    uint64_t interval = 80;
-    uint64_t duration = 10;
-    uint64_t init_start = 600;
-    uint64_t init_end = 1000;
+    uint64_t interval = duration_ + interval_;
+    uint64_t duration = duration_;
+    uint64_t init_start = 400;
+    uint64_t init_end = 600;
 
     // Only add delay once in a delay-adding phase
     if (now > init_start && now < init_end)

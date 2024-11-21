@@ -22,6 +22,8 @@ class CopaAttackQueue
 {
 private:
     uint64_t delay_budget_;
+    uint64_t duration_;
+    uint64_t interval_;
     std::queue<Packet> packet_queue_;
     std::unique_ptr<std::ofstream> log_;
     std::unique_ptr<std::ofstream> attack_log_;
@@ -30,7 +32,7 @@ private:
     /* release timestamp, contents */
 
 public:
-    CopaAttackQueue(const uint64_t &delay_budget, const std::string &link_log, const std::string &attack_log);
+    CopaAttackQueue(const uint64_t &delay_budget, const uint64_t &duration, const uint64_t &interval, const std::string &link_log, const std::string &attack_log);
 
     uint64_t computeDelay(const std::string &contents, uint64_t arrival_time);
 
