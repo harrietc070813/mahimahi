@@ -12,13 +12,6 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    cout << argc;
-    for (int i = 0; i < argc; i++)
-    {
-        cout << argv[i];
-        cout << "\n";
-    }
-
     try
     {
         const bool passthrough_until_signal = getenv("MAHIMAHI_PASSTHROUGH_UNTIL_SIGNAL");
@@ -53,7 +46,6 @@ int main(int argc, char *argv[])
         for (int i = arg_num - 1; i < argc; i++)
         {
             string arg = argv[i];
-            cout << argc;
             if (arg.rfind("--attack-log=", 0) == 0) // Check if it starts with --attack-log=
             {
                 attack_logfile = arg.substr(13); // Extract the log file path
@@ -63,18 +55,6 @@ int main(int argc, char *argv[])
                 command.push_back(argv[i]); // Add remaining arguments (for command)
             }
         }
-
-        cout << "Command vector: ";
-        for (const auto &cmd : command)
-        {
-            cout << cmd << " ";
-        }
-        cout << "\n";
-
-        cout << "Attack logfile " << attack_logfile << "\n";
-        cout << "Attack rate: " << attack_rate << "\n";
-        cout << "Queue size: " << queue_size << "\n";
-        cout << "Delay budget: " << delay_budget << "\n";
 
         PacketShell<BBRAttackQueue> bbr_attack_shell_app("bbr_attack", user_environment, passthrough_until_signal);
 
