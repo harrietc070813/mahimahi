@@ -18,7 +18,6 @@ CopaAttackQueue::CopaAttackQueue(const uint64_t &delay_budget, const uint64_t &d
                                                                   acc_delay(0),
                                                                   last_send_time(0)
 {
-    // srand(time(NULL));
     /* open logfile if called for */
     if (not link_log.empty())
     {
@@ -28,8 +27,6 @@ CopaAttackQueue::CopaAttackQueue(const uint64_t &delay_budget, const uint64_t &d
             throw runtime_error(link_log + ": error opening for writing");
         }
 
-        // *log_ << "# mahimahi mm-link (" << link_name << ") [" << filename << "] > " << logfile << endl;
-        // *log_ << "# command line: " << command_line << endl;
         *log_ << "# queue: " << "droptail [bytes=1000000]" << endl;
         *log_ << "# init timestamp: " << initial_timestamp() << endl;
         *log_ << "# base timestamp: " << timestamp() << endl;
@@ -109,7 +106,6 @@ void CopaAttackQueue::read_packet(const string &contents)
     {
         if (now - last_send_time > interval)
         {
-            // delay = rand() % delay_budget_;
             delay = delay_budget_;
             last_send_time = now;
         }

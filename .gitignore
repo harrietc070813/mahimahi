@@ -42,3 +42,5 @@ Makefile.in
 /src/frontend/.libs
 
 configure~
+mm-bbr-attack
+mm-copa-attack
