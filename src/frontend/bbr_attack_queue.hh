@@ -41,8 +41,8 @@ private:
     BBRPhase state;
     std::queue<Packet> packet_queue_;
 
-    std::string logfile;  // Add logfile string member
-    std::unique_ptr<std::ofstream> log_;  // Add log_ for logging functionality
+    std::string logfile;                 // Add logfile string member
+    std::unique_ptr<std::ofstream> log_; // Add log_ for logging functionality
 
     void detectState(Packet &p);
     void computeDelay(Packet &p);
