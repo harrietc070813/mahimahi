@@ -46,6 +46,11 @@ mm_replayserver_SOURCES = replayserver.cc
 mm_replayserver_LDADD = -lrt ../util/libutil.a ../http/libhttp.a ../protobufs/libhttprecordprotos.a $(protobuf_LIBS)
 mm_replayserver_LDFLAGS = -pthread
 
+bin_PROGRAMS += mm-bbr-attack
+mm_bbr_attack_SOURCES = bbrattackshell.cc bbr_attack_queue.hh bbr_attack_queue.cc
+mm_bbr_attack_LDADD = -lrt ../util/libutil.a ../packet/libpacket.a
+mm_bbr_attack_LDFLAGS = -pthread
+
 bin_PROGRAMS += mm-copa-attack
 mm_copa_attack_SOURCES = copaattackshell.cc copa_attack_queue.hh copa_attack_queue.cc
 mm_copa_attack_LDADD = -lrt ../util/libutil.a ../packet/libpacket.a
@@ -73,5 +78,7 @@ install-exec-hook:
 	chmod u+s $(DESTDIR)$(bindir)/mm-webrecord
 	chown root $(DESTDIR)$(bindir)/mm-webreplay
 	chmod u+s $(DESTDIR)$(bindir)/mm-webreplay
+	chown root $(DESTDIR)$(bindir)/mm-bbr-attack
+	chmod u+s $(DESTDIR)$(bindir)/mm-bbr-attack
 	chown root $(DESTDIR)$(bindir)/mm-copa-attack
 	chmod u+s $(DESTDIR)$(bindir)/mm-copa-attack

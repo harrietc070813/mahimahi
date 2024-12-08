@@ -1,6 +1,8 @@
 /* -*-mode:c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 
 #include <ctime>
+#include <iostream>
+#include <unistd.h> 
 
 #include "timestamp.hh"
 #include "exception.hh"
@@ -25,4 +27,20 @@ uint64_t initial_timestamp( void )
 uint64_t timestamp( void )
 {
     return raw_timestamp() - initial_timestamp();
+}
+
+timespec raw_timestamp_nano( void )
+{
+    timespec ts;
+    SystemCall( "clock_gettime", clock_gettime( CLOCK_REALTIME, &ts ) );
+
+    return ts;
+}
+
+uint64_t timestamp_nano( void )
+{   
+    static timespec init_ts = raw_timestamp_nano();
+    timespec raw_ts = raw_timestamp_nano();
+    uint64_t nano = raw_ts.tv_nsec-init_ts.tv_nsec + (raw_ts.tv_sec-init_ts.tv_sec) * 1000000000;
+    return nano;
 }
