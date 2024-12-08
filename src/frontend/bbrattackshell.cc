@@ -20,18 +20,17 @@ int main(int argc, char *argv[])
         char **const user_environment = environ;
         environ = nullptr;
 
-        const int arg_num = 5;
+        const int arg_num = 4;
         check_requirements(argc, argv);
 
         if (argc < arg_num)
         {
             // todo
-            throw runtime_error("Usage: mm-bbr-attack [attack rate] [queue size] [delay budget] --attack-log=FILE");
+            throw runtime_error("Usage: mm-bbr-attack [attack rate] [delay budget] --attack-log=FILE");
         }
 
         const double attack_rate = myatof(argv[1]);
-        const uint64_t queue_size = myatoi(argv[2]); // Expected number of packets in the queue
-        const uint64_t delay_budget = myatoi(argv[3]);
+        const uint64_t delay_budget = myatoi(argv[2]);
 
         vector<string> command;
         string attack_logfile;
@@ -58,8 +57,8 @@ int main(int argc, char *argv[])
 
         PacketShell<BBRAttackQueue> bbr_attack_shell_app("bbr_attack", user_environment, passthrough_until_signal);
 
-        bbr_attack_shell_app.start_uplink("[attack] ", command, attack_rate, queue_size, delay_budget, attack_logfile);
-        bbr_attack_shell_app.start_downlink(attack_rate, queue_size, delay_budget); // Put condition for the last parameter
+        bbr_attack_shell_app.start_uplink("[attack] ", command, attack_rate, delay_budget, attack_logfile);
+        bbr_attack_shell_app.start_downlink(attack_rate, delay_budget); // Put condition for the last parameter
         return bbr_attack_shell_app.wait_for_exit();
     }
     catch (const exception &e)

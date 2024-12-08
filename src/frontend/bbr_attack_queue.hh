@@ -29,7 +29,6 @@ class BBRAttackQueue
 {
 private:
     double attack_rate;
-    const uint64_t k;
     const uint64_t delay_budget;
     const double initial_rate;
     const double input_rate;
@@ -48,7 +47,7 @@ private:
     void computeDelay(Packet &p);
 
 public:
-    BBRAttackQueue(const double attack_rate_, const uint64_t k_, const uint64_t delay_budget_, const std::string logfile_ = "");
+    BBRAttackQueue(const double attack_rate_, const uint64_t delay_budget_, const std::string logfile_ = "");
 
     void read_packet(const std::string &contents);
 

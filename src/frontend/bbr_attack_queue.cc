@@ -15,11 +15,9 @@ using namespace std;
 
 BBRAttackQueue::BBRAttackQueue(
     const double attack_rate_,
-    const uint64_t k_,
     const uint64_t delay_budget_,
     const std::string logfile)
     : attack_rate(attack_rate_),
-      k(k_),
       delay_budget(delay_budget_),
       initial_rate(125), // 4Mpbs
       input_rate(attack_rate_),
@@ -42,7 +40,7 @@ BBRAttackQueue::BBRAttackQueue(
         }
 
         *log_ << "# mm-bbr-attack log" << endl;
-        *log_ << "# attack_rate: " << attack_rate << " queue_size: " << k << " delay_budget: " << delay_budget << endl;
+        *log_ << "# attack_rate: " << attack_rate << " delay_budget: " << delay_budget << endl;
         *log_ << "# base timestamp: " << timestamp() << endl;
         *log_ << "# queue: " << "droptail [bytes=1000000]" << endl;
         *log_ << "# init timestamp: " << initial_timestamp() << endl;
