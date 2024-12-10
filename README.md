@@ -13,7 +13,7 @@ An example command: `mm-bbr-attack 1000 500 --attack-log=/mnt/ramdisk/test.log`
 <Explain what is in the test.log>
 
 ### mm-copa-attack
-An example command: `mm-copa-attack 40 10 80 test.uplink test.downlink test.uplink.attack test.downlink.attack`
+An example command: `mm-copa-attack 40 10 80 /mnt/ramdisk/test.uplink /mnt/ramdisk/test.downlink /mnt/ramdisk/test.uplink.attack /mnt/ramdisk/test.downlink.attack`
 
 In this example, `test.uplink` contains packet arrival and departure information of the uplink (similar to the mm-link log), while `test.downlink` contains the information of the downlink. 
 
