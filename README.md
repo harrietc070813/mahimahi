@@ -10,8 +10,6 @@ Two jitter attack modules have been added to this repo: `mm-bbr-attack` and `mm-
 ### mm-bbr-attack
 An example command: `mm-bbr-attack 1000 500 --attack-log=/mnt/ramdisk/test.log`
 
-<Explain what is in the test.log>
-
 ### mm-copa-attack
 An example command: `mm-copa-attack 40 10 80 /mnt/ramdisk/test.uplink /mnt/ramdisk/test.downlink /mnt/ramdisk/test.uplink.attack /mnt/ramdisk/test.downlink.attack`
 
